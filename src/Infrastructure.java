@@ -7,14 +7,16 @@ public class Infrastructure {
 	public static void main(String[] args) {
 
 		Scanner scn = new Scanner(System.in);
+//		System.out.println("Enter no. of servers: ");
 		int n = scn.nextInt();
 		scn.nextLine();
+//		System.out.println("Enter space separated server IPs");
 		String ips = scn.nextLine();
-		String[] machineURLarray = ips.split(" ");
-		HashMap<String, Machine> machineURLs = new HashMap<String, Machine>();
+		String[] machineIParray = ips.split(" ");
+		HashMap<String, Machine> machineIPaddr = new HashMap<String, Machine>();
 
 		for (int i = 0; i < n; i++) {
-			machineURLs.put(machineURLarray[i], new Machine(machineURLarray[i]));
+			machineIPaddr.put(machineIParray[i], new Machine(machineIParray[i]));
 		}
 
 		int numProxies = scn.nextInt();
@@ -33,7 +35,7 @@ public class Infrastructure {
 			ArrayList<Machine> machineList = new ArrayList<>();
 
 			for (int j = 0; j < numMachines; j++) {
-				machineList.add(machineURLs.get(IPlist[j]));
+				machineList.add(machineIPaddr.get(IPlist[j]));
 			}
 			revProxyHM.put(ProxyURL, new reverseProxy(ProxyURL, IPlist));
 			revProxyHM.get(ProxyURL).construct(machineList);
@@ -50,8 +52,8 @@ public class Infrastructure {
 			q++;
 		}
 
-		for (String revProxy : revProxyList) {
-			revProxyHM.get(revProxy).generateLogs();
+		for (String machineIP : machineIParray) {
+			machineIPaddr.get(machineIP).printLogs();
 		}
 	}
 }
