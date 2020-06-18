@@ -3,6 +3,10 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * @author Rajat Garg
+ *
+ */
 public class reverseProxy {
 	public String proxyURL;
 	public Deque<Machine> activeMachines;
@@ -10,6 +14,10 @@ public class reverseProxy {
 	public HashMap<String, ArrayList<String>> persistentMem;
 	public String[] IPlist;
 
+	/**
+	 * @param proxyURL: The URL of a reverse proxy object.
+	 * @param IPlist: List of IPs of machine object under reverse proxy object.
+	 */
 	reverseProxy(String proxyURL, String[] IPlist) {
 		this.proxyURL = proxyURL;
 		this.activeMachines = new LinkedList<Machine>();
@@ -22,6 +30,9 @@ public class reverseProxy {
 		return this.proxyURL;
 	}
 
+	/**
+	 * @param machineList: List of machine objects under a reverse proxy object.
+	 */
 	public void construct(ArrayList<Machine> machineList) {
 		for (int i = 0; i < machineList.size(); i++) {
 			Machine m = machineList.get(i);
@@ -30,6 +41,9 @@ public class reverseProxy {
 		}
 	}
 
+	/**
+	 * @param url: The URL of the special request (machine_up/machine_down).
+	 */
 	public void specialRequest(String url) {
 		String[] urlarr = url.split("=", 2);
 		if (url.contains("down")) {
@@ -40,15 +54,18 @@ public class reverseProxy {
 		}
 	}
 
+	/**
+	 * @param url: The URL of any request to reverse proxy object.
+	 */
 	public void request(String url) {
 		if (url.contains("machine_down") || url.contains("machine_up")) {
 			this.specialRequest(url);
 		} else {
-			
-			while((!this.activeMachines.isEmpty()) && (!this.activeMachines.peek().status())) {
+
+			while ((!this.activeMachines.isEmpty()) && (!this.activeMachines.peek().status())) {
 				this.activeMachines.remove();
 			}
-			if(this.activeMachines.isEmpty()) {
+			if (this.activeMachines.isEmpty()) {
 				System.out.println("[ERR!]: No Machine Available");
 				return;
 			}
