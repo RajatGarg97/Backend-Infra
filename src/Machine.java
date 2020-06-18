@@ -1,16 +1,29 @@
 import java.util.ArrayList;
 
+/**
+ * @author Rajat Garg 
+ *
+ */
 public class Machine {
 	public String ip;
 	public boolean isActive;
 	public ArrayList<String> logFile;
 
+	/**
+	 * This is a constructor method.
+	 * @param ip: It is the IP address of the machine object.
+	 */
 	Machine(String ip) {
 		this.ip = ip;
 		this.isActive = true;
 		this.logFile = new ArrayList<String>();
 	}
 
+	/**
+	 * This is a constructor method.
+	 * @param ip: It is the IP address of the machine object.
+	 * @param logFile: An ArrayList in which logs of the machine object are stored.
+	 */
 	Machine(String ip, ArrayList<String> logFile) {
 		this.ip = ip;
 		this.logFile = logFile;
@@ -29,13 +42,19 @@ public class Machine {
 		return this.isActive;
 	}
 
+	/**
+	 * This method is used to switch status of machine object to inactive.  
+	 */
 	public void machine_down() {
 		this.isActive = false;
 		String errStr = "[ERR!]: " + this.getIP() + " is down";
 		this.logger(errStr);
 //		System.out.println(errStr);
 	}
-	
+
+	/**
+	 * This method is used to switch status of machine object to active.
+	 */
 	public void machine_up() {
 		String str = "[INFO]: " + this.getIP() + " is up and running";
 		this.logger(str);
@@ -43,25 +62,31 @@ public class Machine {
 		this.isActive = true;
 	}
 
+	/**
+	 * @param log: A string containing log request to be saved in logfile.
+	 */
 	public void logger(String log) {
-		if(this.status()) {
-		String logstr = "[INFO]: " + log + " [response: 200]";
-		this.logFile.add(logstr);
+		if (this.status()) {
+			String logstr = "[INFO]: " + log + " [response: 200]";
+			this.logFile.add(logstr);
 		} else {
 			this.logFile.add(log);
 		}
-		
+
 //		if(this.status()) {
 //			System.out.println("[INFO]: " + this.getIP() + " returned 200");
 //		}
 	}
 
+	/**
+	 * Print logs in the console
+	 */
 	public void printLogs() {
 		System.out.println("Generating Logs for " + this.getIP());
 		for (int i = 0; i < this.logFile.size(); i++) {
 			System.out.println(this.logFile.get(i));
 		}
-		System.out.println("---------------------------");
+		System.out.println("--------------------------------------------------");
 		System.out.println();
 	}
 }
