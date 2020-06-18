@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * @author Rajat Garg
+ *
+ */
 public class Infrastructure {
 
 	public static void main(String[] args) {
@@ -22,7 +26,7 @@ public class Infrastructure {
 		for (int i = 0; i < n; i++) {
 			machineIPaddr.put(machineIParray[i], new Machine(machineIParray[i]));
 		}
-		
+
 //		System.out.println("Enter the number of Reverse Proxies");
 		int numProxies = scn.nextInt();
 		scn.nextLine();
@@ -56,7 +60,7 @@ public class Infrastructure {
 			revProxyHM.get(inputURLsplit[0]).request(inputURL);
 			q++;
 		}
-		
+
 		System.out.println();
 		System.out.println("Generating Machine-wise Logs...");
 		System.out.println();
