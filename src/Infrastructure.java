@@ -13,12 +13,17 @@ public class Infrastructure {
 //		System.out.println("Enter space separated server IPs");
 		String ips = scn.nextLine();
 		String[] machineIParray = ips.split(" ");
+		if (n != machineIParray.length) {
+			System.err.println("Check the input");
+			return;
+		}
 		HashMap<String, Machine> machineIPaddr = new HashMap<String, Machine>();
 
 		for (int i = 0; i < n; i++) {
 			machineIPaddr.put(machineIParray[i], new Machine(machineIParray[i]));
 		}
-
+		
+//		System.out.println("Enter the number of Reverse Proxies");
 		int numProxies = scn.nextInt();
 		scn.nextLine();
 		ArrayList<String> revProxyList = new ArrayList<String>();
@@ -51,6 +56,10 @@ public class Infrastructure {
 			revProxyHM.get(inputURLsplit[0]).request(inputURL);
 			q++;
 		}
+		
+		System.out.println();
+		System.out.println("Generating Machine-wise Logs...");
+		System.out.println();
 
 		for (String machineIP : machineIParray) {
 			machineIPaddr.get(machineIP).printLogs();
