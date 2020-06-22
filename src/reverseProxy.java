@@ -10,11 +10,11 @@ import java.util.ListIterator;
  */
 public class reverseProxy {
 	public String proxyURL;
-	public LinkedList<String> activeMachines;
+	public ArrayList<String> activeMachines;
 	public HashMap<String, Machine> machines;
 	public HashMap<String, ArrayList<String>> persistentMem;
 	public String[] IPlist;
-	ListIterator list_Iter;
+	public int Iterator;
 
 	/**
 	 * @param proxyURL: The URL of a reverse proxy object.
@@ -22,11 +22,11 @@ public class reverseProxy {
 	 */
 	reverseProxy(String proxyURL, String[] IPlist) {
 		this.proxyURL = proxyURL;
-		this.activeMachines = new LinkedList<String>();
+		this.activeMachines = new ArrayList<String>();
 		this.machines = new HashMap<String, Machine>();
 		this.IPlist = IPlist;
 		this.persistentMem = new HashMap<String, ArrayList<String>>();
-		this.list_Iter = activeMachines.listIterator(0);
+		this.Iterator = 0;
 	}
 
 	public String getProxyURL() {
@@ -76,16 +76,11 @@ public class reverseProxy {
 				System.out.println("[ERR!]: No Machine Available");
 				return;
 			}
-
-			if (!this.list_Iter.hasNext()) {
-				this.list_Iter = activeMachines.listIterator(0);
-			}
-
-			while (this.list_Iter.hasNext()) {
-				Machine m = this.machines.get(this.list_Iter.next());
+				this.Iterator = this.Iterator % this.activeMachines.size();
+				Machine m = this.machines.get(this.activeMachines.get(this.Iterator));
 				m.request(url);
 				persistentMem.put(m.getIP(), m.getLogs());
-			}
+				this.Iterator++;
 		}
 	}
 }
