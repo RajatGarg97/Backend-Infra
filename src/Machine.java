@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 /**
- * @author Rajat Garg 
+ * @author Rajat Garg
  *
  */
 public class Machine {
@@ -11,16 +11,18 @@ public class Machine {
 
 	/**
 	 * This is a constructor method.
+	 * 
 	 * @param ip: It is the IP address of the machine object.
 	 */
 	Machine(String ip) {
 		this.ip = ip;
-		this.isActive = true;
 		this.logFile = new ArrayList<String>();
+		this.machine_up();
 	}
 
 	/**
 	 * This is a constructor method.
+	 * 
 	 * @param ip: It is the IP address of the machine object.
 	 * @param logFile: An ArrayList in which logs of the machine object are stored.
 	 */
@@ -43,13 +45,14 @@ public class Machine {
 	}
 
 	/**
-	 * This method is used to switch status of machine object to inactive.  
+	 * This method is used to switch status of machine object to inactive.
 	 */
 	public void machine_down() {
 		this.isActive = false;
-		String errStr = "[ERR!]: " + this.getIP() + " is down";
-		this.logger(errStr);
-//		System.out.println(errStr);
+	}
+
+	public void request(String url) {
+		this.logger(url);
 	}
 
 	/**
@@ -58,7 +61,6 @@ public class Machine {
 	public void machine_up() {
 		String str = "[INFO]: " + this.getIP() + " is up and running";
 		this.logger(str);
-//		System.out.println(str);
 		this.isActive = true;
 	}
 
@@ -72,10 +74,6 @@ public class Machine {
 		} else {
 			this.logFile.add(log);
 		}
-
-//		if(this.status()) {
-//			System.out.println("[INFO]: " + this.getIP() + " returned 200");
-//		}
 	}
 
 	/**
