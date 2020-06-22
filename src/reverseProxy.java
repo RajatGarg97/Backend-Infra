@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 /**
  * @author Rajat Garg
@@ -9,10 +10,11 @@ import java.util.LinkedList;
  */
 public class reverseProxy {
 	public String proxyURL;
-	public Deque<Machine> activeMachines;
+	public LinkedList<String> activeMachines;
 	public HashMap<String, Machine> machines;
 	public HashMap<String, ArrayList<String>> persistentMem;
 	public String[] IPlist;
+	ListIterator list_Iter;
 
 	/**
 	 * @param proxyURL: The URL of a reverse proxy object.
@@ -20,10 +22,11 @@ public class reverseProxy {
 	 */
 	reverseProxy(String proxyURL, String[] IPlist) {
 		this.proxyURL = proxyURL;
-		this.activeMachines = new LinkedList<Machine>();
+		this.activeMachines = new LinkedList<String>();
 		this.machines = new HashMap<String, Machine>();
 		this.IPlist = IPlist;
 		this.persistentMem = new HashMap<String, ArrayList<String>>();
+		this.list_Iter = activeMachines.listIterator(0);
 	}
 
 	public String getProxyURL() {
@@ -37,42 +40,52 @@ public class reverseProxy {
 		for (int i = 0; i < machineList.size(); i++) {
 			Machine m = machineList.get(i);
 			this.machines.put(m.getIP(), m);
-			this.activeMachines.add(m);
+			this.activeMachines.add(m.getIP());
 		}
+	}
+
+	public void machine_down(String url) {
+		String[] urlarr = url.split("=", 2);
+		this.machines.get(urlarr[1]).machine_down();
+		this.activeMachines.remove(urlarr[1]);
+		this.machines.remove(urlarr[1]);
+		String errStr = "[ERR!]: " + urlarr[1] + " is down";
+		this.persistentMem.get(urlarr[1]).add(errStr);
 	}
 
 	/**
 	 * @param url: The URL of the special request (machine_up/machine_down).
 	 */
-	public void specialRequest(String url) {
+	public void machine_up(String url) {
 		String[] urlarr = url.split("=", 2);
-		if (url.contains("down")) {
-			this.machines.get(urlarr[1]).machine_down();
-		} else {
-			this.machines.put(urlarr[1], new Machine(urlarr[1], this.persistentMem.get(urlarr[1])));
-			this.activeMachines.addFirst(this.machines.get(urlarr[1]));
-		}
+		this.machines.put(urlarr[1], new Machine(urlarr[1], this.persistentMem.get(urlarr[1])));
+		this.activeMachines.add(urlarr[1]);
 	}
 
 	/**
 	 * @param url: The URL of any request to reverse proxy object.
 	 */
 	public void request(String url) {
-		if (url.contains("machine_down") || url.contains("machine_up")) {
-			this.specialRequest(url);
+		if (url.contains("machine_down")) {
+			this.machine_down(url);
+		} else if (url.contains("machine_up")) {
+			this.machine_up(url);
 		} else {
 
-			while ((!this.activeMachines.isEmpty()) && (!this.activeMachines.peek().status())) {
-				this.activeMachines.remove();
-			}
 			if (this.activeMachines.isEmpty()) {
 				System.out.println("[ERR!]: No Machine Available");
 				return;
 			}
-			Machine m = this.activeMachines.poll();
-			m.logger(url);
-			persistentMem.put(m.getIP(), m.getLogs());
-			this.activeMachines.add(m);
+
+			if (!this.list_Iter.hasNext()) {
+				this.list_Iter = activeMachines.listIterator(0);
+			}
+
+			while (this.list_Iter.hasNext()) {
+				Machine m = this.machines.get(this.list_Iter.next());
+				m.request(url);
+				persistentMem.put(m.getIP(), m.getLogs());
+			}
 		}
 	}
 }
