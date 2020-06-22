@@ -34,7 +34,6 @@ public class Infrastructure {
 		HashMap<String, reverseProxy> revProxyHM = new HashMap<>();
 
 		for (int i = 0; i < numProxies; i++) {
-
 			String ProxyURL = scn.nextLine();
 			revProxyList.add(ProxyURL);
 			int numMachines = scn.nextInt();
@@ -61,9 +60,7 @@ public class Infrastructure {
 			q++;
 		}
 
-		System.out.println();
-		System.out.println("Generating Machine-wise Logs...");
-		System.out.println();
+		System.out.println("\nGenerating Machine-wise Logs...\n");
 
 		for (String machineIP : machineIParray) {
 			machineIPaddr.get(machineIP).printLogs();
