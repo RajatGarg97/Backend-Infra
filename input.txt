@@ -1,23 +1,23 @@
 4
 1.2.3.1 1.2.3.2 1.2.3.4 1.2.3.5
 2
-www1.awesome.api
+www1.foobar.api
 2
 1.2.3.1 1.2.3.4
-www2.awesome.api
+www2.rajat.api
 2
 1.2.3.2 1.2.3.5
 13
-www1.awesome.api/get/users
-www1.awesome.api/delete/user?id=2
-www2.awesome.api/update/user
-www2.awesome.api/get/user?id=1
-www1.awesome.api/machine_down?ip=1.2.3.4
-www2.awesome.api/pingcheck
-www1.awesome.api/pingcheck
-www1.awesome.api/pingcheck
-www1.awesome.api/pingcheck
-www1.awesome.api/machine_up?ip=1.2.3.4
-www1.awesome.api/pingcheck
-www1.awesome.api/pingcheck
-www1.awesome.api/pingcheck
+www1.foobar.api/get/users
+www1.foobar.api/delete/user?id=2
+www2.rajat.api/update/user
+www2.rajat.api/get/user?id=1
+www1.foobar.api/machine_down?ip=1.2.3.4
+www2.rajat.api/pingcheck
+www1.foobar.api/pingcheck
+www1.foobar.api/pingcheck
+www1.foobar.api/pingcheck
+www1.foobar.api/machine_up?ip=1.2.3.4
+www1.foobar.api/pingcheck
+www1.foobar.api/pingcheck
+www1.foobar.api/pingcheck
