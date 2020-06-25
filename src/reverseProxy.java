@@ -8,7 +8,7 @@ import java.util.ListIterator;
  * @author Rajat Garg
  *
  */
-public class reverseProxy {
+public class ReverseProxy {
 	public String proxyURL;
 	public ArrayList<String> activeMachines;
 	public HashMap<String, Machine> machines;
@@ -20,7 +20,7 @@ public class reverseProxy {
 	 * @param proxyURL: The URL of a reverse proxy object.
 	 * @param IPlist: List of IPs of machine object under reverse proxy object.
 	 */
-	reverseProxy(String proxyURL, String[] IPlist) {
+	ReverseProxy(String proxyURL, String[] IPlist) {
 		this.proxyURL = proxyURL;
 		this.activeMachines = new ArrayList<String>();
 		this.machines = new HashMap<String, Machine>();
@@ -44,6 +44,9 @@ public class reverseProxy {
 		}
 	}
 
+	/**
+	 * @param url: The URL of the special request (machine_down)
+	 */
 	public void machine_down(String url) {
 		String[] urlarr = url.split("=", 2);
 		this.machines.get(urlarr[1]).machine_down();
@@ -54,7 +57,7 @@ public class reverseProxy {
 	}
 
 	/**
-	 * @param url: The URL of the special request (machine_up/machine_down).
+	 * @param url: The URL of the special request (machine_up).
 	 */
 	public void machine_up(String url) {
 		String[] urlarr = url.split("=", 2);
@@ -71,16 +74,15 @@ public class reverseProxy {
 		} else if (url.contains("machine_up")) {
 			this.machine_up(url);
 		} else {
-
 			if (this.activeMachines.isEmpty()) {
 				System.out.println("[ERR!]: No Machine Available");
 				return;
 			}
-				this.Iterator = this.Iterator % this.activeMachines.size();
-				Machine m = this.machines.get(this.activeMachines.get(this.Iterator));
-				m.request(url);
-				persistentMem.put(m.getIP(), m.getLogs());
-				this.Iterator++;
+			this.Iterator = this.Iterator % this.activeMachines.size();
+			Machine m = this.machines.get(this.activeMachines.get(this.Iterator));
+			m.request(url);
+			persistentMem.put(m.getIP(), m.getLogs());
+			this.Iterator++;
 		}
 	}
 }
