@@ -19,6 +19,7 @@ public class Infrastructure {
 		String[] machineIParray = ips.split(" ");
 		if (n != machineIParray.length) {
 			System.err.println("Check the input");
+			scn.close();
 			return;
 		}
 		HashMap<String, Machine> machineIPaddr = new HashMap<String, Machine>();
@@ -31,7 +32,7 @@ public class Infrastructure {
 		int numProxies = scn.nextInt();
 		scn.nextLine();
 		ArrayList<String> revProxyList = new ArrayList<String>();
-		HashMap<String, reverseProxy> revProxyHM = new HashMap<>();
+		HashMap<String, ReverseProxy> revProxyHM = new HashMap<>();
 
 		for (int i = 0; i < numProxies; i++) {
 			String ProxyURL = scn.nextLine();
@@ -45,7 +46,7 @@ public class Infrastructure {
 			for (int j = 0; j < numMachines; j++) {
 				machineList.add(machineIPaddr.get(IPlist[j]));
 			}
-			revProxyHM.put(ProxyURL, new reverseProxy(ProxyURL, IPlist));
+			revProxyHM.put(ProxyURL, new ReverseProxy(ProxyURL, IPlist));
 			revProxyHM.get(ProxyURL).construct(machineList);
 		}
 
@@ -65,5 +66,6 @@ public class Infrastructure {
 		for (String machineIP : machineIParray) {
 			machineIPaddr.get(machineIP).printLogs();
 		}
+		scn.close();
 	}
 }
